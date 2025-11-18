@@ -1,188 +1,199 @@
+# 🚀 AI Speech Summarizer Agent  
+### *RAG-Based · Fully Local · Powered by Ollama + Mistral + ChromaDB*
 
-# AI Speech Summarizer 🗣️➡️🤖➡️📄  
-An intelligent speech summarization system built using **Ollama**, **Mistral LLM**, **ChromaDB**, and **Docker**.  
-It automatically reads your `speech.txt`, creates embeddings, stores them in a vector database, retrieves the most relevant chunks, and generates a concise summary using an LLM.
+This project is a **production-style AI Speech Summarization Agent** capable of reading long text files, chunking them into meaningful segments, retrieving relevant context via semantic vector search, and generating clean, context-aware summaries using **Mistral LLM served locally through Ollama**.
 
----
-
-## 📌 Features
-
-- 🔥 **Mistral LLM via Ollama** for fast and accurate summarization  
-- 🧠 **Chroma Vector Database** for document chunking & retrieval  
-- 📂 Fully **Dockerized** (no local Python setup needed!)  
-- 📝 Automatic text chunking + retrieval-based summarization  
-- 🎯 Clean architecture and easily extendable  
+Everything runs inside **Docker Compose**, making the system fully reproducible, portable, and free from Python environment conflicts.
 
 ---
 
-## 🚀 Prerequisites
+# 🧱 Project Structure (Flat Layout)
 
-Before running the project, ensure the following are installed:
+```
+AmbedkarGPT-Intern-Task/
+│
+├── main.py              # Main application logic (RAG pipeline)
+├── requirements.txt     # Python dependencies
+├── speech.txt           # Input file for summarization
+├── docker-compose.yml   # Multi-container setup (App + Chroma)
+├── Dockerfile           # Image build for Python app
+├── .dockerignore
+└── README.md
+```
 
-### **1. Docker**
-Install Docker:  
-https://docs.docker.com/get-docker/
+---
 
-### **2. Docker Compose**
-Install Docker Compose:  
-https://docs.docker.com/compose/install/
+# 🧠 Key Features
 
-### **3. Git (optional, for cloning)**
+- Reads any `.txt` based document or long speech  
+- Splits text into meaningful semantic chunks  
+- Generates embeddings using Sentence-Transformers  
+- Stores vectors in **ChromaDB** for similarity search  
+- Retrieves the most relevant chunks using vector similarity  
+- Summarizes using **Mistral LLM** running locally via Ollama  
+- Entire pipeline runs through Docker Compose  
+- Zero cloud dependency → full privacy → local execution  
+
+---
+
+# 🛠 Tech Stack
+
+- Python  
+- LangChain  
+- Sentence-Transformers  
+- ChromaDB  
+- Ollama (Mistral LLM)  
+- Docker & Docker Compose  
+- Git  
+
+---
+
+# ⚠️ Prerequisites (IMPORTANT)
+
+Before running the project, make sure you have:
+
+### ✔ Docker Installed  
+https://www.docker.com/products/docker-desktop/
+
+### ✔ Git Installed  
 https://git-scm.com/downloads
 
+### ✔ Ollama Installed (Runs on host machine, NOT in Docker)  
+https://ollama.com/download
+
+Install Mistral model:
+
+```
+ollama pull mistral
+```
+
 ---
 
-## 📦 Installation & Setup
+# 📥 Clone the Repository
 
-### **1. Clone the repository**
-
-```bash
+```
 git clone https://github.com/Busted-pinch/AmbedkarGPT-Intern-Task.git
 cd AmbedkarGPT-Intern-Task
 ```
 
 ---
 
-### **2. Build the Docker containers**
+# ✍️ Preparing Input File
 
-```bash
+Replace or edit:
+
+```
+speech.txt
+```
+
+- Must be `.txt`  
+- Can be extremely long  
+- Add any text you want the agent to summarize  
+
+---
+
+# ▶️ Execution Steps (Super Descriptive — Follow Carefully)
+
+## **1️⃣ Start Ollama**
+
+Before touching Docker, run:
+
+```
+ollama serve
+```
+
+You should see:
+
+```
+Listening on 127.0.0.1:11434
+```
+
+Leave it running.
+
+---
+
+## **2️⃣ Start Docker Compose**
+
+Inside the project folder:
+
+```
 sudo docker compose up --build
 ```
 
-This will:
+This performs:
 
-- Build the Python container  
-- Install requirements  
-- Start the Ollama LLM server  
-- Start the app container  
-
----
-
-### **3. Pull the Mistral model (one-time setup)**
-
-```bash
-sudo docker compose exec ollama ollama pull mistral
-```
-
-This downloads the Mistral LLM (~4.4GB).
+- Builds the Python app image  
+- Installs dependencies inside container  
+- Starts ChromaDB  
+- Connects Python app → ChromaDB  
+- Connects Python app → Ollama (host)  
+- Runs the full RAG summarization pipeline  
 
 ---
 
-## ▶️ Running the Application
+## **3️⃣ Behind the Scenes Workflow**
 
-### **Summarize the speech**
+- Reads `speech.txt`  
+- Chunks text  
+- Generates embeddings  
+- Stores vectors in ChromaDB  
+- Performs similarity search  
+- Sends prompt to Mistral through Ollama  
+- Prints final summary in logs  
 
-```bash
-sudo docker compose exec app python main.py -q "Summarize the speech"
-```
-
-The system will:
-
-1. Read `speech.txt`
-2. Chunk into embeddings
-3. Save document embeddings in Chroma
-4. Retrieve the top relevant chunks
-5. Generate a summary using **Mistral** via Ollama
-
----
-
-## 📁 Project Structure
+You will see:
 
 ```
-📦 AmbedkarGPT-Intern-Task
- ┣ 📜 Dockerfile
- ┣ 📜 docker-compose.yml
- ┣ 📜 main.py
- ┣ 📜 requirements.txt
- ┣ 📜 speech.txt
- ┗ 📜 README.md  (this file)
+--- SUMMARY ---
+<your final summary here>
 ```
 
 ---
 
-## 🛠 Troubleshooting
+## **4️⃣ Stop Containers**
 
-### ❗ *App container exits immediately*
+```
+CTRL + C
+sudo docker compose down
+```
 
-Make sure you're running:
+---
 
-```bash
+# 🧹 Troubleshooting
+
+### 🔸 Ollama not responding  
+Run:
+```
+ollama serve
+```
+
+### 🔸 Model not found  
+Run:
+```
+ollama pull mistral
+```
+
+### 🔸 Chroma issues  
+Rebuild:
+```
+sudo docker compose down
 sudo docker compose up --build
 ```
 
-The app is **not** a long-running service — it runs, prints results, and exits.  
-That is normal.
+---
 
-To manually attach & debug:
+# 🎯 Expected Output
 
-```bash
-sudo docker compose run --rm app bash
-```
+A clean, readable, context-aware summary of your input text powered by:
+
+- Retrieval-Augmented Generation  
+- Local Vector Search  
+- Local LLM Inference  
+
+Everything happens entirely offline.
 
 ---
 
-### ❗ Chroma errors: *InvalidDimensionException* or *DB not reading*
+# 🔗 Repository
 
-Fix by removing Chroma volume:
-
-```bash
-sudo docker compose down -v
-sudo docker compose up --build
-```
-
-This wipes the old vector DB and rebuilds it.
-
----
-
-### ❗ Ollama unreachable / fallback triggered
-
-Make sure Ollama container is running:
-
-```bash
-sudo docker compose ps
-```
-
-And test manually:
-
-```bash
-sudo docker compose exec ollama ollama run mistral "hello"
-```
-
----
-
-## 📘 Example Output
-
-```
-=== LLM ANSWER ===
-The speaker argues that caste cannot be removed until the unquestioned
-authority of the shastras is rejected. Social reform alone cannot solve the issue;
-the root cause is the belief in the infallibility of scripture.
-=== END ANSWER ===
-```
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
-
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!  
-Feel free to fork the repo and submit improvements.
-
----
-
-## 🙏 Acknowledgements
-
-- **Ollama** for local LLM serving  
-- **Mistral AI** for high-quality language modeling  
-- **ChromaDB** for vector search  
-- **Docker** for portable, reproducible builds  
-
----
-
-### 🎉 Enjoy your AI Speech Summarizer!
-A clean, fast, and production-ready RAG pipeline powered by open-source LLMs.
+https://github.com/Busted-pinch/AmbedkarGPT-Intern-Task
