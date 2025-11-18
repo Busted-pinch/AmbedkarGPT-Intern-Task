@@ -1,0 +1,32 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fsoc_ai_intern_app
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_API_URL=http://ollama:11434
+      - PERSIST_DIR=/data/chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - chroma_data:/data/chroma
+    command: ["bash", "-c", "sleep infinity"]
+    restart: "no"
+
+volumes:
+  ollama_data:
+  chroma_data:
+
