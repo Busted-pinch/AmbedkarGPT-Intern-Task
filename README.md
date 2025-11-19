@@ -1,7 +1,7 @@
-# 🚀 AI Speech Summarizer Agent
+# 🚀 AI Text File Based Query Processing Agent
 ### *RAG-Based · Fully Local · Powered by Ollama + Mistral + ChromaDB*
 
-This project is a **production-grade AI Speech Summarization Agent** that reads long text, chunks it, embeds it, performs semantic retrieval using ChromaDB, and generates accurate summaries using **Mistral LLM through Ollama** — all running **locally** and fully containerized with Docker Compose.
+This project is a **production-grade AI Speech processing Agent** that reads long text, chunks it, embeds it, performs semantic retrieval using ChromaDB, and generates accurate query response using **Mistral LLM through Ollama** — all running **locally** and fully containerized with Docker Compose.
 
 ---
 
@@ -25,7 +25,7 @@ AmbedkarGPT-Intern-Task/
 - Embeds chunks using Sentence-Transformers  
 - Stores embeddings in **ChromaDB**  
 - Retrieves relevant chunks via vector similarity  
-- Summarizes using **Mistral LLM** via Ollama  
+- Processes queries using **Mistral LLM** via Ollama  
 - Fully containerized with Docker Compose  
 - Works fully offline — full privacy  
 - Reproducible setup and single-command runs
@@ -70,7 +70,7 @@ Edit or replace the file named `speech.txt` in the repo root.
 
 - Must be plain `.txt`  
 - Can be long or short  
-- This is the file the agent will summarize
+- This is the file the agent will generate a response for the query
 
 ---
 
@@ -94,7 +94,7 @@ What this does:
 - Installs Python dependencies inside the container  
 - Starts ChromaDB (persisted in a Docker volume)  
 - Connects the app to ChromaDB and Ollama  
-- Runs the summarization pipeline
+- Runs the pipeline
 
 ---
 
@@ -107,7 +107,7 @@ What this does:
 5. Performs semantic search for the query  
 6. Retrieves the top relevant chunks  
 7. Sends retrieved text to **Mistral** via **Ollama**  
-8. Prints the final summary to stdout/logs
+8. Prints the final response to stdout/logs
 
 Sample output format:
     --- SUMMARY ---
