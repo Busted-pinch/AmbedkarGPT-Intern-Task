@@ -144,6 +144,6 @@ The app is designed to run the pipeline and exit. For interactive debugging, you
 
 ---
 
-# 🔗 Repository
+# 🔗 Follow me on LinkedIn
+https://www.linkedin.com/in/prathamesh-mete
 
-https://github.com/Busted-pinch/AmbedkarGPT-Intern-Task
