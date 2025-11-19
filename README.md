@@ -1,4 +1,4 @@
-# 🚀 AI Text File Based Query Processing Agent
+# 🚀 Text File Based Query Processing AI Agent
 ### *RAG-Based · Fully Local · Powered by Ollama + Mistral + ChromaDB*
 
 This project is a **production-grade AI Speech processing Agent** that reads long text, chunks it, embeds it, performs semantic retrieval using ChromaDB, and generates accurate query response using **Mistral LLM through Ollama** — all running **locally** and fully containerized with Docker Compose.
