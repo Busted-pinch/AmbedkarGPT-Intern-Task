@@ -138,7 +138,7 @@ The app is designed to run the pipeline and exit. For interactive debugging, you
 
 # 🎯 Expected Output
 
-- A concise, context-aware summary printed in the logs  
+- A concise, context-aware response printed in the logs  
 - RAG-driven results produced using local LLM inference and vector search  
 - Reproducible results on any machine with the prerequisites installed
 
